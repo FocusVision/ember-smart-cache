@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "type": "widgets",
+      "id": 1,
+      "attributes": {
+        "name": "sproing",
+        "price": "19.99",
+        "size": "M"
+      }
+    },
+    {
+      "type": "widgets",
+      "id": 2,
+      "attributes": {
+        "name": "plammer",
+        "price": "49.99",
+        "size": "S"
+      }
+    }
+  ]
+}

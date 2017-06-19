@@ -1,0 +1,9 @@
+{{#if smartModel.loading}}
+  Background Loading Updates
+{{/if}}
+
+{{#each model as |widget|}}
+  <h3 {{action 'updateName' widget}}>{{widget.name}}</h3>
+  <p>Size: {{widget.size}}</p>
+  <p>Price: ${{widget.price}}</p>
+{{/each}}
