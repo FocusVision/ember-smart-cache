@@ -1,1 +1,1 @@
-export { default } from 'ember-smart-cache/services/smart-model';
+export { default } from 'ember-smart-cache/services/smart-model'

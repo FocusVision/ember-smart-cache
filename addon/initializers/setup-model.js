@@ -21,4 +21,4 @@ export function initialize(application) {
 export default {
   name: 'setup-model',
   initialize
-};
+}
