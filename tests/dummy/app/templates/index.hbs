@@ -3,7 +3,9 @@
 {{/if}}
 
 {{#each model as |widget|}}
-  <h3 {{action 'updateName' widget}}>{{widget.name}}</h3>
+  <h3 {{action 'updateName' widget 'frank'}}>{{widget.name}}</h3>
+  <p {{action 'resetName' widget}}>reset</p>
+  <p {{action 'remove' widget}}>remove</p>
   <p>Size: {{widget.size}}</p>
   <p>Price: ${{widget.price}}</p>
 {{/each}}

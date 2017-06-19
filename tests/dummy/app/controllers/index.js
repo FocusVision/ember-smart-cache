@@ -11,8 +11,16 @@ export default Controller.extend({
   queryParams: ['delay'],
 
   actions: {
-    updateName(widget) {
-      widget.set('name', 'frank')
+    updateName(widget, name) {
+      widget.set('name', name)
+    },
+
+    resetName(widget) {
+      widget.set('name', widget.get('id') === '1' ? 'sproing' : 'plammer')
+    },
+
+    remove(widget) {
+      widget.deleteRecord()
     }
   }
 })
