@@ -1,19 +1,41 @@
 import DS from 'ember-data'
+import Ember from 'ember'
+
+const {
+  addObserver
+} = Ember
 
 export function initialize(application) {
   application.inject('route:application', 'smartModel', 'service:smart-model')
 
   DS.Model.reopen({
-    set(key, value) {
-      const result = this._super(key, value)
+    eswUpdateCache() {
       const id = this.get('id')
-      if (navigator.serviceWorker && navigator.serviceWorker.controller && id) {
-        const payload = this.serialize().data
-        payload.id = id
-        navigator.serviceWorker.controller.postMessage(payload)
-      }
 
-      return result
+      if (navigator.serviceWorker && navigator.serviceWorker.controller && id) {
+        const data = this.serialize()
+        data.id = id
+        navigator.serviceWorker.controller.postMessage(data)
+      }
+    },
+
+    didDelete() {
+      const id = this.get('id')
+
+      if (navigator.serviceWorker && navigator.serviceWorker.controller && id) {
+        navigator.serviceWorker.controller.postMessage({ type: 'delete', id })
+      }
+    },
+
+    init(...args) {
+      this._super(...args)
+
+      this.eachAttribute(key =>
+        addObserver(this, key, this, 'eswUpdateCache')
+      )
+      this.eachRelationship(key =>
+        addObserver(this, key, this, 'eswUpdateCache')
+      )
     }
   })
 }
