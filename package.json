@@ -20,7 +20,7 @@
   "dependencies": {
     "ember-cli-babel": "^6.0.0",
     "ember-service-worker": "0.6.7",
-    "ember-service-worker-smart-jsonapi-caching": "0.1.0"
+    "ember-service-worker-smart-jsonapi-caching": "^0.1.0"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",

@@ -4,6 +4,15 @@ import Ember from 'ember'
 const {
   addObserver
 } = Ember
+const {
+  serviceWorker
+} = navigator
+
+const sendMessage = (type, data) => {
+  if (serviceWorker && serviceWorker.controller && data.id) {
+    navigator.serviceWorker.controller.postMessage({ type, data })
+  }
+}
 
 export function initialize(application) {
   application.inject('route:application', 'smartModel', 'service:smart-model')
@@ -11,20 +20,26 @@ export function initialize(application) {
   DS.Model.reopen({
     eswUpdateCache() {
       const id = this.get('id')
+      const data = this.serialize()
+      data.id = id
 
-      if (navigator.serviceWorker && navigator.serviceWorker.controller && id) {
-        const data = this.serialize()
-        data.id = id
-        navigator.serviceWorker.controller.postMessage(data)
-      }
+      sendMessage('update', data)
     },
 
-    didDelete() {
+    destroyRecord(...args) {
       const id = this.get('id')
+      const type = this._internalModel.modelName
 
-      if (navigator.serviceWorker && navigator.serviceWorker.controller && id) {
-        navigator.serviceWorker.controller.postMessage({ type: 'delete', id })
-      }
+      this._super(...args)
+      sendMessage('delete', { type, id })
+    },
+
+    deleteRecord(...args) {
+      const id = this.get('id')
+      const type = this._internalModel.modelName
+
+      this._super(...args)
+      sendMessage('delete', { type, id })
     },
 
     init(...args) {
